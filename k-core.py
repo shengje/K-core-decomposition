@@ -27,11 +27,10 @@ def core_number(G):
     # The initial guess for the core number of a node is its degree.
     core = degrees
     #nbrs = {v: list(nx.all_neighbors(G, v)) for v in G}
-    nbrs = G
     for v in nodes:
-        for u in nbrs[v]:
+        for u in G[v]:
             if core[u] > core[v]:
-                nbrs[u].remove(v)
+                G[u].remove(v)
                 pos = node_pos[u]
                 bin_start = bin_boundaries[core[u]]
                 node_pos[u] = bin_start
@@ -70,7 +69,7 @@ if __name__ == "__main__":
             graph = addEdge(graph, nodes[0], nodes[1])
     
     highest_k, k_cores = find_kcores(graph)
-    
+
     with open(output_file, "w") as fout:
         for i in sorted(k_cores[highest_k]):
             fout.write(str(i)+"\n")
